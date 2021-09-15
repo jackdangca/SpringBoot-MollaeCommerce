@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <head th:replace="fragments :: page_head('Users - Molla Managmment')"></head>
+    <body>
+        <!-- Navbar -->
+        <div th:replace="fragments :: nav('categories')"></div>
+
+        <main class="container">
+
+            <!-- Main topic -->
+            <h2 class="mb-2 mt-5 main-title">Manage categories</h2>
+
+            <!-- Links -->
+            <div class="user-links">
+                <a th:href="@{/admin/categories/new}">Create new category</a> |
+                <a th:href="@{/admin/categories/export/csv}">Export as CSV</a> |
+                <a th:href="@{/admin/categories/export/excel}">Export as Excel</a> |
+                <a th:href="@{/admin/categories/export/pdf}">Export as PDF</a>
+            </div>
+
+
+        </main>
+    </body>
+</html>
