@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <head th:replace="fragments :: page_head('Molla - eCommercce')"></head>
+    <body>
+
+        <!-- Navbar -->
+        <div th:replace="fragments :: nav('home')"></div>
+
+        <main>
+            Welcome
+            <a th:href="@{/account}"
+               sec:authentication="principal.name"></a>
+            <span sec:authentication="principal.authorities"></span>
+        </main>
+
+
+        <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    </body>
+</html>
