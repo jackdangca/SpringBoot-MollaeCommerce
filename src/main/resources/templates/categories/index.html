@@ -46,6 +46,37 @@
                 [[${messageError}]]
             </div>
 
+            <table class="table table-bordered table-hover mt-3">
+                <thead>
+                    <tr class="bg-black text-white">
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Category name</th>
+                        <th>Category alias</th>
+                        <th>Enabled</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="category : ${categories}">
+                        <th>[[${category.id}]]</th>
+                        <th class="text-center">
+                            <i th:if="${category.image == null}" class="avatar-icon fas fa-portrait fa-3x"></i>
+                            <img width="100" height="80" th:if="${category.image != null}" th:src="@{${category.imagePath}}">
+                        </th>
+                        <th>[[${category.name}]]</th>
+                        <th>[[${category.alias}]]</th>
+                        <th>
+                            <a th:if="${category.enabled == true}" th:href="@{'/admin/categories/' + ${category.id} + '/enabled/false'}" class="enable-icon fas fa-check-circle fa-2x"></a>
+                            <a th:if="${category.enabled == false}" th:href="@{'/admin/categories/' + ${category.id} + '/enabled/true'}" class="disable-icon fas fa-circle fa-2x"></a>
+                        </th>
+                        <th class="text-center d-flex justify-content-around">
+                            <a class="edit-link" th:href="@{'/admin/categories/edit/' + ${category.id}}"><i class="fas fa-user-edit"></i></a>
+                            <a class="remove-link" th:href="@{'/admin/categories/delete/' + ${category.id}}"><i class="fas fa-user-times"></i></a>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
 
         </main>
     </body>
