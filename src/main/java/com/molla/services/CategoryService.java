@@ -10,4 +10,6 @@ public interface CategoryService {
 
     public List<Category> listCategoriesUsedInForm();
 
+    public Category save(Category category);
+
 }

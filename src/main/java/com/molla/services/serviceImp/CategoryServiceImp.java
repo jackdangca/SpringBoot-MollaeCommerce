@@ -53,6 +53,11 @@ public class CategoryServiceImp implements CategoryService {
         return categoriesUsedInForm;
     }
 
+    @Override
+    public Category save(Category category) {
+        return categoryRepository.save(category);
+    }
+
     private void listSubCategoriesUsedInForm(List<Category> categoriesUsedInForm, Category parent, int subLevel){
         int newSubLevel = subLevel + 1;
         Set<Category> children = parent.getChildren();
