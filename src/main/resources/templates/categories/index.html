@@ -19,6 +19,33 @@
                 <a th:href="@{/admin/categories/export/pdf}">Export as PDF</a>
             </div>
 
+            <!-- Filters -->
+            <form th:action="@{/admin/categories/page/1/}">
+                <div class="row g-3 align-items-center mb-3 mt-3">
+                    <div class="col-auto">
+                        <label class="col-form-label">Filter</label>
+                    </div>
+                    <div class="col-auto d-flex">
+<!--                        <input type="hidden" name="sortField" th:value="${sortField}">-->
+<!--                        <input type="hidden" name="sortDir" th:value="${sortDir}">-->
+<!--                        <input type="search" class="form-control me-1 ms-1 input" name="keyword" th:value="${keyword}">-->
+                        <input type="search" class="form-control me-1 ms-1 input" name="keyword">
+                        <input type="submit" value="Search" class="btn btn-primary me-1 ms-1">
+                        <a th:href="@{/admin/categories}" class="btn btn-primary">Clear</a>
+                    </div>
+                </div>
+            </form>
+
+
+            <!-- Redirect message -->
+            <div th:if="${messageSuccess != null}" class="alert alert-success text-center">
+                [[${messageSuccess}]]
+            </div>
+
+            <div th:if="${messageError != null}" class="alert alert-danger text-center">
+                [[${messageError}]]
+            </div>
+
 
         </main>
     </body>
