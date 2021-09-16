@@ -1,5 +1,6 @@
 package com.molla.controller;
 
+import com.molla.exciptions.CategoryNotFoundException;
 import com.molla.model.Category;
 import com.molla.services.CategoryService;
 import com.molla.util.FileUpload;
@@ -8,10 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -87,6 +85,32 @@ public class CategoryController {
         return "redirect:/admin/categories";
     }
 
+    @GetMapping("/edit/{id}")
+    public String editCategory(@PathVariable(name = "id") Integer id, Model model,
+                               RedirectAttributes ra) {
 
+        LOGGER.info("CategoryController | editCategory is started");
+
+        try {
+            Category category = categoryService.get(id);
+            List<Category> listCategories = categoryService.listCategoriesUsedInForm();
+
+            LOGGER.info("CategoryController | editCategory | category : " + category.toString());
+            LOGGER.info("CategoryController | editCategory | listCategories : " + listCategories.toString());
+
+
+            model.addAttribute("category", category);
+            model.addAttribute("categories", listCategories);
+            model.addAttribute("pageTitle", "Edit Category (ID: " + id + ")");
+
+            return "categories/category_form";
+
+        } catch (CategoryNotFoundException ex) {
+
+            LOGGER.info("CategoryController | editCategory | messageError : " + ex.getMessage());
+            ra.addFlashAttribute("messageError", ex.getMessage());
+            return "redirect:/categories";
+        }
+    }
 
 }

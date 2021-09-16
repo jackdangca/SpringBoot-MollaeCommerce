@@ -1,5 +1,6 @@
 package com.molla.services.serviceImp;
 
+import com.molla.exciptions.CategoryNotFoundException;
 import com.molla.model.Category;
 import com.molla.repository.CategoryRepository;
 import com.molla.services.CategoryService;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 @Service
@@ -115,4 +117,11 @@ public class CategoryServiceImp implements CategoryService {
         }
     }
 
+    public Category get(Integer id) throws CategoryNotFoundException {
+        try {
+            return categoryRepository.findById(id).get();
+        } catch (NoSuchElementException ex) {
+            throw new CategoryNotFoundException("Could not find any category with ID " + id);
+        }
+    }
 }
