@@ -128,3 +128,11 @@ main {
     color: #cc9966 !important;
 }
 
+.text-badge {
+    color: #ffffff;
+    background-color: #cc9966;
+    padding: 3px 8px 5px;
+    margin: auto 2px;
+    font-weight: 400;
+    border-radius: 10px;
+}
