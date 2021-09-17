@@ -14,13 +14,13 @@
                 [[${messageError}]]
             </div>
 
-<!--            onsubmit="return checkUnique(this)"-->
 
 
             <div class="container">
                 <div class="form-container container border mt-5 p-4" style="max-width: 700px; margin: 0 auto">
                     <form th:action="@{/admin/categories/save}" method="post"
                       enctype="multipart/form-data"
+                      onsubmit="return checkUnique(this)"
                       th:object="${category}">
                         <input type="hidden" th:field="*{id}" />
                         <div class="form-group row mb-3">
