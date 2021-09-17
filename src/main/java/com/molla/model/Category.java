@@ -41,6 +41,7 @@ public class Category {
     @OrderBy("name asc")
     private Set<Category> children = new HashSet<>();
 
+
     public Category(Integer id) {
         this.id = id;
     }
@@ -104,6 +105,7 @@ public class Category {
 
         return "/category-images/" + this.id + "/" + this.image;
     }
+
 
     @Override
     public String toString() {
