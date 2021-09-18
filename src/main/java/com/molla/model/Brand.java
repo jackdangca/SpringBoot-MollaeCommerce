@@ -3,6 +3,7 @@ package com.molla.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -38,6 +39,14 @@ public class Brand {
         this.logo = "brand-logo.png";
     }
 
+    @Transient
+    public String getLogoPath() {
+        if (id == null || logo == null)  return "/images/thumbnail.png";
+
+        return "/brands-logos/" + this.id + "/" + this.logo;
+
+    }
+
     @Override
     public String toString() {
         return "Brand{" +
@@ -46,4 +55,5 @@ public class Brand {
                 ", categories=" + categories +
                 '}';
     }
+
 }

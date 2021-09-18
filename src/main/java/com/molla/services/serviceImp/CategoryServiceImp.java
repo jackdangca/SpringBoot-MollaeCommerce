@@ -4,7 +4,6 @@ import com.molla.exciptions.CategoryNotFoundException;
 import com.molla.model.Category;
 import com.molla.repository.CategoryRepository;
 import com.molla.services.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 

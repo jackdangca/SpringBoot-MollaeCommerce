@@ -38,7 +38,6 @@ public class AccountController {
         this.roleService = roleService;
     }
 
-
     @GetMapping("")
     public String viewAccount(@AuthenticationPrincipal MollaUserDetails loggerUSer, Model model) {
         LOGGER.info("AccountController | try to get view account : " + loggerUSer.toString());

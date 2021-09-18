@@ -22,8 +22,7 @@ public class UserCsvExporter extends AbstractExporter{
 		Writer writer = new OutputStreamWriter(response.getOutputStream(), "utf-8");
 		writer.write('\uFEFF');
 		
-		ICsvBeanWriter csvWriter = new CsvBeanWriter(writer, 
-				CsvPreference.STANDARD_PREFERENCE);
+		ICsvBeanWriter csvWriter = new CsvBeanWriter(writer, CsvPreference.STANDARD_PREFERENCE);
 
 		String[] csvHeader = {"User ID", "E-mail", "First Name", "Last Name", "Roles", "Enabled"};
 		String[] fieldMapping = {"id", "email", "firstName", "lastName", "roles", "enabled"};
