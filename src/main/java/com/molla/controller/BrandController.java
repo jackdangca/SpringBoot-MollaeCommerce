@@ -7,12 +7,18 @@ import com.molla.model.Brand;
 import com.molla.model.Category;
 import com.molla.services.BrandService;
 import com.molla.services.CategoryService;
+import com.molla.util.FileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -60,8 +66,39 @@ public class BrandController {
 
     }
 
+    @PostMapping("/save")
+    public String saveCategory(Brand brand,
+                               @RequestParam("fileImage") MultipartFile multipartFile,
+                               RedirectAttributes ra) throws IOException {
 
-    @GetMapping("/brands/export/csv")
+        LOGGER.info("BrandController | saveBrand is started");
+
+        LOGGER.info("BrandController | saveBrand | multipartFile.isEmpty() : " + multipartFile.isEmpty());
+
+        if (!multipartFile.isEmpty()) {
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+
+            LOGGER.info("BrandController | saveBrand | fileName : " + fileName);
+
+            brand.setLogo(fileName);
+
+            Brand savedBrand = brandService.save(brand);
+            String uploadDir = "brand-logos/" + savedBrand.getId();
+
+            LOGGER.info("BrandController | saveBrand | savedBrand : " + savedBrand.toString());
+            LOGGER.info("BrandController | saveCategory | uploadDir : " + uploadDir);
+
+            FileUpload.cleanDir(uploadDir);
+            FileUpload.saveFile(uploadDir, fileName, multipartFile);
+        } else {
+            brandService.save(brand);
+        }
+
+        ra.addFlashAttribute("messageSuccess", "The brand has been saved successfully.");
+        return "redirect:/admin/brands";
+    }
+
+    @GetMapping("/export/csv")
     public void exportToCSV(HttpServletResponse response) throws IOException {
 
         LOGGER.info("BrandController | exportToCSV is started");
@@ -77,7 +114,7 @@ public class BrandController {
 
     }
 
-    @GetMapping("/brands/export/excel")
+    @GetMapping("/export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
 
         LOGGER.info("BrandController | exportToExcel is called");
@@ -96,7 +133,7 @@ public class BrandController {
 
     }
 
-    @GetMapping("/brands/export/pdf")
+    @GetMapping("/export/pdf")
     public void exportToPDF(HttpServletResponse response) throws IOException {
 
         LOGGER.info("BrandController | exportToPDF is called");

@@ -22,4 +22,9 @@ public class BrandServiceImp implements BrandService {
     public List<Brand> listAll() {
         return (List<Brand>) brandRepository.findAll();
     }
+
+    @Override
+    public Brand save(Brand brand) {
+        return brandRepository.save(brand);
+    }
 }
