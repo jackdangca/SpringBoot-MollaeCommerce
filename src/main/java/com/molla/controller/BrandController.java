@@ -191,7 +191,7 @@ public class BrandController {
 
             LOGGER.info("BrandController | deleteBrand | brand deleted");
 
-            String brandDir = "../brand-logos/" + id;
+            String brandDir = "brand-logos/" + id;
 
             LOGGER.info("BrandController | deleteBrand | brandDir : " + brandDir);
 

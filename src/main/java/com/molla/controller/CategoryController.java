@@ -166,7 +166,7 @@ public class CategoryController {
 
             LOGGER.info("CategoryController | deleteCategory | category deleted");
 
-            String categoryDir = "/category-images/" + id;
+            String categoryDir = "category-images/" + id;
 
             LOGGER.info("CategoryController | deleteCategory | categoryDir : " + categoryDir);
 

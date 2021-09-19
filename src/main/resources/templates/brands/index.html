@@ -57,7 +57,9 @@
                 <tbody>
                 <tr th:each="brand : ${brands}">
                     <th>[[${brand.id}]]</th>
-                    <th></th>
+                    <th>
+                        <img th:src="@{${brand.logoPath}}" width="150" height="75">
+                    </th>
                     <th>[[${brand.name}]]</th>
                     <th>
                         <th:block th:each="category : ${brand.categories}">
