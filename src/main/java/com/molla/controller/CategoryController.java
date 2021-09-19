@@ -155,7 +155,6 @@ public class CategoryController {
 
     @GetMapping("/delete/{id}")
     public String deleteCategory(@PathVariable(name = "id") Integer id,
-                                 Model model,
                                  RedirectAttributes redirectAttributes) {
 
         LOGGER.info("CategoryController | deleteCategory is started");
@@ -167,7 +166,7 @@ public class CategoryController {
 
             LOGGER.info("CategoryController | deleteCategory | category deleted");
 
-            String categoryDir = "../category-images/" + id;
+            String categoryDir = "/category-images/" + id;
 
             LOGGER.info("CategoryController | deleteCategory | categoryDir : " + categoryDir);
 

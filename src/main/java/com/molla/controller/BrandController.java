@@ -1,5 +1,7 @@
 package com.molla.controller;
 
+import com.molla.exciptions.BrandNotFoundException;
+import com.molla.exciptions.CategoryNotFoundException;
 import com.molla.exportcsv.BrandCsvExporter;
 import com.molla.exportexcel.BrandExcelExporter;
 import com.molla.exportpdf.BrandPdfExporter;
@@ -13,10 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -152,5 +151,66 @@ public class BrandController {
 
     }
 
+    @GetMapping("/edit/{id}")
+    public String editBrand(@PathVariable(name = "id") Integer id, Model model,
+                              RedirectAttributes ra) {
+
+        LOGGER.info("BrandController | editBrand is started");
+
+        try {
+            Brand brand = brandService.get(id);
+            List<Category> categories = categoryService.listCategoriesUsedInForm();
+
+            LOGGER.info("BrandController | editBrand | brand : " + brand.toString());
+            LOGGER.info("BrandController | editBrand | listCategories : " + categories.toString());
+
+
+            model.addAttribute("categoriesList", categories);
+            model.addAttribute("brand", brand);
+            model.addAttribute("pageTitle", "Edit brand (ID: " + id + ")");
+
+            return "brands/brand_form";
+
+        } catch (BrandNotFoundException ex) {
+
+            LOGGER.info("BrandController | editBrand | messageError : " + ex.getMessage());
+            ra.addFlashAttribute("messageError", ex.getMessage());
+            return "redirect:/brands";
+        }
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteBrand(@PathVariable(name = "id") Integer id,
+                              RedirectAttributes redirectAttributes) {
+
+        LOGGER.info("BrandController | deleteBrand is started");
+        LOGGER.info("BrandController | deleteBrand | id : " + id);
+
+        try {
+            brandService.delete(id);
+
+            LOGGER.info("BrandController | deleteBrand | brand deleted");
+
+            String brandDir = "../brand-logos/" + id;
+
+            LOGGER.info("BrandController | deleteBrand | brandDir : " + brandDir);
+
+            FileUpload.removeDir(brandDir);
+
+            LOGGER.info("BrandController | deleteBrand | FileUploadUtil.removeDir is over");
+
+            LOGGER.info("BrandController | deleteBrand | brandDir : " + brandDir);
+
+            redirectAttributes.addFlashAttribute("messageSuccess",
+                    "The brand ID " + id + " has been deleted successfully");
+
+        } catch (BrandNotFoundException ex) {
+            LOGGER.info("BrandController | deleteBrand | messageError : " + ex.getMessage());
+            redirectAttributes.addFlashAttribute("messageError", ex.getMessage());
+        }
+
+        return "redirect:/admin/brands";
+
+    }
 
 }
