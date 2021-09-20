@@ -55,7 +55,12 @@
                                th:href="@{/admin/brands}">
                                 Brands</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" th:href="@{/admin/products}">Products</a></li>
+                        <li class="nav-item"
+                            sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                            <a th:class="${activeTab == 'products' ? 'active nav-link'  : 'nav-link'}"
+                               th:href="@{/admin/products}">
+                            Products</a>
+                        </li>
                         <li class="nav-item"><a class="nav-link" th:href="@{/admin/customers}">Customers</a></li>
                         <li class="nav-item"><a class="nav-link" th:href="@{/admin/admin/shipping}">Shipping</a></li>
                         <li class="nav-item"><a class="nav-link" th:href="@{/admin/orders}">Orders</a></li>

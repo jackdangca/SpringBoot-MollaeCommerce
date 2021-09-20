@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <head th:replace="fragments :: page_head('Product - Molla Managmment')"></head>
+    <body>
+        <!-- Navbar -->
+        <div th:replace="fragments :: nav('products')"></div>
+
+        <main class="container">
+
+            <!-- Main topic -->
+            <h2 class="mb-2 mt-5 main-title">Manage products</h2>
+
+            <!-- Links -->
+            <div class="user-links">
+                <a th:href="@{/admin/products/new}">Create new product</a> |
+                <a th:href="@{/admin/products/export/csv}">Export as CSV</a> |
+                <a th:href="@{/admin/products/export/excel}">Export as Excel</a> |
+                <a th:href="@{/admin/products/export/pdf}">Export as PDF</a>
+            </div>
+
+            <div th:replace="fragments :: search_form_and_message" />
+
+
+            <table class="table table-bordered table-hover mt-3">
+                <thead>
+                    <tr class="bg-black text-white">
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Product name</th>
+                        <th>Brand</th>
+                        <th>Category</th>
+                        <th>Enabled</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="product : ${products}">
+                        <th>[[${product.id}]]</th>
+                        <th></th>
+                        <th>[[${product.name}]]</th>
+                        <th>[[${product.brand.name}]]</th>
+                        <th>[[${product.category.name}]]</th>
+                        <th>
+                            <a th:if="${product.enabled == true}" th:href="@{'/admin/products/' + ${product.id} + '/enabled/false'}" class="enable-icon fas fa-check-circle fa-2x"></a>
+                            <a th:if="${product.enabled == false}" th:href="@{'/admin/products/' + ${product.id} + '/enabled/true'}" class="disable-icon fas fa-circle fa-2x"></a>
+                        </th>
+                        <th class="text-center d-flex justify-content-around">
+                            <a class="edit-link" th:href="@{'/admin/products/detail/' + ${product.id}}"><i class="far fa-eye"></i></a>
+                            <a class="edit-link" th:href="@{'/admin/products/edit/' + ${product.id}}"><i class="fas fa-edit"></i></a>
+                            <a class="remove-link" th:href="@{'/admin/products/delete/' + ${product.id}}"><i class="fas fa-times"></i></a>
+                        </th>
+
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+        </main>
+    </body>
+</html>
