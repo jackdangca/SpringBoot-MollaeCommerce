@@ -54,6 +54,7 @@ public class CategoryController {
         model.addAttribute("categories", categoryService.listAll(sortDir, keyword));
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", reverseSortDir);
+        model.addAttribute("moduleURL", "/admin/categories");
 
         return "categories/index";
     }

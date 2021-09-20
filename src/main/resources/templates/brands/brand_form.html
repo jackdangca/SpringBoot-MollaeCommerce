@@ -14,19 +14,17 @@
                 [[${messageError}]]
             </div>
 
-
-<!--            onsubmit="return checkUnique(this)"-->
-
             <div class="container">
                 <div class="form-container container border mt-5 p-4" style="max-width: 700px; margin: 0 auto">
                     <form th:action="@{/admin/brands/save}" method="post"
+                          onsubmit="return checkUnique(this)"
                           enctype="multipart/form-data"
                           th:object="${brand}">
                         <input type="hidden" th:field="*{id}" />
                         <div class="form-group row mb-3">
                             <label class="col-sm-3 col-form-label">Brand name:</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control input" th:field="*{name}" required minlength="3" maxlength="128"  />
+                                <input type="text" class="form-control input" th:field="*{name}" required minlength="2" maxlength="128"  />
                             </div>
                         </div>
 
@@ -103,25 +101,21 @@
             moduleURL = "[[@{/brands}]]";
 
 
-
             function checkUnique(form) {
                 catId = $("#id").val();
-                catName = $("#name").val();
-                catAlias = $("#alias").val();
+                brandName = $("#name").val();
 
                 csrfValue = $("input[name='_csrf']").val();
 
-                url = "[[@{/admin/categories/check_unique}]]";
+                url = "[[@{/admin/brands/check_unique}]]";
 
-                params = {id: catId, name: catName, alias: catAlias, _csrf: csrfValue};
+                params = {id: catId, name: brandName, _csrf: csrfValue};
 
                 $.post(url, params, function(response) {
                     if (response == "OK") {
                         form.submit();
-                    } else if (response == "DuplicateName") {
-                        alert("There is another category having same name " + catName);
-                    } else if (response == "DuplicateAlias") {
-                        alert("There is another category having same alias " + catAlias);
+                    } else if (response == "Duplicate") {
+                        alert("There is another brand having same name " + brandName);
                     } else {
                         alert("Unknown response from server");
                     }

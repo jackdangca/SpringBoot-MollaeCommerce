@@ -9,9 +9,13 @@ import com.molla.model.Brand;
 import com.molla.model.Category;
 import com.molla.services.BrandService;
 import com.molla.services.CategoryService;
+import com.molla.services.serviceImp.BrandServiceImp;
+import com.molla.services.serviceImp.UserServiceImp;
 import com.molla.util.FileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -41,9 +45,44 @@ public class BrandController {
     public String listAll(Model model) {
         LOGGER.info("BrandController | listFirstPage is started");
 
-        model.addAttribute("brands", brandService.listAll());
+        listByPage(1, "name", "asc", null, model);
+        return "brands/index";
+    }
+
+    @GetMapping("/page/{pageNum}")
+    public String listByPage(@PathVariable(name = "pageNum") int pageNum,
+                             @Param("sortField") String sortField,
+                             @Param("sortDir") String sortDir,
+                             @Param("keyword") String keyword,
+                             Model model) {
+
+        LOGGER.info("BrandController | listByPage is started");
+        Page<Brand> brandPage = brandService.listByPage(pageNum, sortField, sortDir, keyword);
+        List<Brand> brands = brandPage.getContent();
+
+        long startCount = (pageNum - 1) * BrandServiceImp.BRANDS_PER_PAGE + 1;
+        long endCount = startCount + BrandServiceImp.BRANDS_PER_PAGE - 1;
+
+        if (endCount > brandPage.getTotalPages()) {
+            endCount = brandPage.getTotalPages();
+        }
+
+        String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+
+        model.addAttribute("brands", brands);
+        model.addAttribute("currentPage", pageNum);
+        model.addAttribute("totalPages", brandPage.getTotalPages());
+        model.addAttribute("totalItems", brandPage.getTotalElements());
+        model.addAttribute("startCount", startCount);
+        model.addAttribute("endCount", endCount);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", reverseSortDir);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("moduleURL", "/admin/brands");
 
         return "brands/index";
+
     }
 
     @GetMapping("/new")

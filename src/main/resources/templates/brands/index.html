@@ -19,37 +19,15 @@
                 <a th:href="@{/admin/brands/export/pdf}">Export as PDF</a>
             </div>
 
-            <!-- Filters -->
-            <form th:action="@{/admin/brands/}">
-                <div class="row g-3 align-items-center mb-3 mt-3">
-                    <div class="col-auto">
-                        <label class="col-form-label">Filter</label>
-                    </div>
-                    <div class="col-auto d-flex">
-                        <!--                        <input type="hidden" name="sortDir" th:value="${sortDir}">-->
-                        <!--                        <input type="search" class="form-control me-1 ms-1 input" name="keyword" th:value="${keyword}">-->
-                        <input type="submit" value="Search" class="btn btn-primary me-1 ms-1">
-                        <a th:href="@{/admin/categories}" class="btn btn-primary">Clear</a>
-                    </div>
-                </div>
-            </form>
+            <div th:replace="fragments :: search_form_and_message" />
 
-
-            <!-- Redirect message -->
-            <div th:if="${messageSuccess != null}" class="alert alert-success text-center">
-                [[${messageSuccess}]]
-            </div>
-
-            <div th:if="${messageError != null}" class="alert alert-danger text-center">
-                [[${messageError}]]
-            </div>
 
             <table class="table table-bordered table-hover mt-3">
                 <thead>
                 <tr class="bg-black text-white">
                     <th>ID</th>
                     <th>Logo</th>
-                    <th>Brand name</th>
+                    <th th:replace="fragments :: column_links('name', 'Brand name', '/admin/brands')"></th>
                     <th>Categories</th>
                     <th>Action</th>
                 </tr>
