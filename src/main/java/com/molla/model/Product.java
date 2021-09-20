@@ -52,8 +52,6 @@ public class Product {
     private float height;
     private float weight;
 
-    @Column(name = "main_image", nullable = false)
-    private String mainImage;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -63,4 +61,16 @@ public class Product {
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", enabled=" + enabled +
+                ", inStock=" + inStock +
+                ", price=" + price +
+                ", category=" + category.getName() +
+                ", brand=" + brand.getName() +
+                '}';
+    }
 }
