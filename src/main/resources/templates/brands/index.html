@@ -52,6 +52,36 @@
                 </tbody>
             </table>
 
+            <!-- Pagination -->
+            <div class="text-center mt-2 mb-2" th:if="${totalItems > 0}">
+                <span>Showing users # [[${currentPage}]] to [[${totalPages}]] of [[${totalItems}]]</span>
+            </div>
+            <div class="text-center mt-2 mb-2" th:if="${totalItems < 1}">
+                <span>No users found</span>
+            </div>
+            <div th:if="${totalPages > 1}" class="mt-2 mb-5">
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li th:class="${currentPage > 1 ? 'page-item': 'page-item disabled' }">
+                            <a class="page-link" th:href="@{'/admin/brands/page/1' + '/?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword == null ? '' : '&keyword=' + keyword}}">First</a>
+                        </li>
+                        <li th:class="${currentPage > 1 ? 'page-item': 'page-item disabled' }">
+                            <a class="page-link" th:href="@{'/admin/brands/page/' + ${currentPage - 1} + '/?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword == null ? '' : '&keyword=' + keyword}}">Previous</a>
+                        </li>
+                        <li th:class="${currentPage != i ? 'page-item': 'page-item active' }" th:each="i : ${#numbers.sequence(1, totalPages)}">
+                            <a class="page-link" th:href="@{'/admin/brands/page/' + ${i} + '/?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword == null ? '' : '&keyword=' + keyword}}">[[${i}]]</a>
+                        </li>
+                        <li th:class="${currentPage < totalPages ? 'page-item': 'page-item disabled' }">
+                            <a class="page-link" th:href="@{'/admin/brands/page/' + ${currentPage + 1} + '/?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword == null ? '' : '&keyword=' + keyword}}">Next</a>
+                        </li>
+                        <li th:class="${currentPage < totalPages ? 'page-item': 'page-item disabled' }">
+                            <a class="page-link" th:href="@{'/admin/brands/page/' + ${totalPages} + '/?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword == null ? '' : '&keyword=' + keyword}}">Last</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+
         </main>
     </body>
 </html>
