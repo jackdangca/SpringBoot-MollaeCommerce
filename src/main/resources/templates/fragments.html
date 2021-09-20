@@ -56,7 +56,7 @@
                                 Brands</a>
                         </li>
                         <li class="nav-item"
-                            sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                            sec:authorize="hasAnyAuthority('Admin', 'Editor', 'Shipper', 'Salesperson')">
                             <a th:class="${activeTab == 'products' ? 'active nav-link'  : 'nav-link'}"
                                th:href="@{/admin/products}">
                             Products</a>
